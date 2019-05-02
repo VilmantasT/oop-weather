@@ -5,6 +5,7 @@ namespace Weather;
 use Weather\Api\DataProvider;
 use Weather\Api\DbRepository;
 use Weather\Model\Weather;
+use Weather\Model\WeatherJason;
 
 class Manager
 {
@@ -13,9 +14,14 @@ class Manager
      */
     private $transporter;
 
-    public function getTodayInfo(): Weather
+    public function getTodayInfo():Weather
     {
         return $this->getTransporter()->selectByDate(new \DateTime());
+    }
+
+    public function getTodayInfoWeatherJason():WeatherJason
+    {
+        return $this->getTransporter()->selectByDateWeatherJason(new \DateTime());
     }
 
     public function getWeekInfo(): array

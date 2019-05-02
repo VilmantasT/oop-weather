@@ -75,5 +75,12 @@
     "high": "31",
     "low": "20",
     "text": "Sunny"
+  },
+  {
+    "date": "03 May 2019",
+    "day": "Mon",
+    "high": "15",
+    "low": "7",
+    "text": "Scattered Showers"
   }
 ]

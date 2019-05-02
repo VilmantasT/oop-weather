@@ -8,9 +8,8 @@ interface DataProvider
 {
     /**
      * @param \DateTime $date
-     * @return Weather
      */
-    public function selectByDate(\DateTime $date): Weather;
+    public function selectByDate(\DateTime $date);
 
     /**
      * @param \DateTime $from
