@@ -12,6 +12,7 @@ class WeatherJason
         'Breezy' => 'wind',
         'Partly Cloudy' => 'cloud-sun',
         'Mostly Cloudy' => 'cloud',
+        'Sunny' => 'sun'
     ];
 
     /**

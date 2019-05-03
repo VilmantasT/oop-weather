@@ -2,6 +2,7 @@
 
 namespace Weather\Controller;
 
+use Weather\Api\GoogleApi;
 use Weather\Manager;
 use Weather\Model\NullWeather;
 
@@ -11,7 +12,21 @@ class StartPage
     {
         try {
             $service = new Manager();
-            $weather = $service->getTodayInfo($api);
+
+            switch ($api)
+            {
+                case 'weather':
+                    $weather = $service->getTodayInfoWeatherJason();
+                    break;
+                case 'google':
+                    echo "googletoday";
+                    $service = new GoogleApi();
+                    $weather = $service->getToday();
+                    break;
+                default:
+                    $weather = $service->getTodayInfo();
+            }
+
         } catch (\Exception $exp) {
             $weather = new NullWeather();
         }
@@ -23,7 +38,32 @@ class StartPage
     {
         try {
             $service = new Manager();
-            $weathers = $service->getWeekInfo($api);
+
+
+            switch ($api)
+            {
+                case 'weather':
+                    $weathers = $service->getWeekInfoWeatherJason();
+                    break;
+                case 'google':
+                    echo "googleweek";
+                    $day = new \DateTime();
+
+                    for ($i = 0; $i < 6; $i++)
+                    {
+                        $service = new GoogleApi();
+                        $weather = $service->getToday();
+                        $weather->setDate($day);
+                        $day = new \DateTime($day->format('Y-m-d') . ' +1 day');
+
+                        $weathers[] = $weather;
+
+                    }
+                    break;
+                default:
+                    $weathers = $service->getWeekInfo();
+            }
+
         } catch (\Exception $exp) {
             $weathers = [];
         }

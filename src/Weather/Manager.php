@@ -29,6 +29,11 @@ class Manager
         return $this->getTransporter()->selectByRange(new \DateTime('midnight'), new \DateTime('+6 days midnight'));
     }
 
+    public function getWeekInfoWeatherJason(): array
+    {
+        return $this->getTransporter()->selectByRangeWeatherJason(new \DateTime('midnight'), new \DateTime('+6 days midnight'));
+    }
+
     private function getTransporter()
     {
         if (null === $this->transporter) {

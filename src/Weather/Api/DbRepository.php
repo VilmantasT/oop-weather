@@ -9,9 +9,11 @@ use Weather\Model\WeatherJason;
 class DbRepository implements DataProvider
 {
     /**
-     * @param \DateTime $date, string $api
+     * @param \DateTime $date
+     * @return Weather
+     * @throws \Exception
      */
-    public function selectByDate(\DateTime $date)
+    public function selectByDate(\DateTime $date): Weather
     {
 
         $items = $this->selectAll();
@@ -19,26 +21,7 @@ class DbRepository implements DataProvider
         $result = new NullWeather();
 
         foreach ($items as $item) {
-            var_dump($item->getDate());
-            if ($item->getDate()->format('Y-m-d') === $date->format('Y-m-d')) {
-                $result = $item;
 
-            }
-        }
-
-        return $result;
-    }    /**
-     * @param \DateTime $date, string $api
-     */
-    public function selectByDateWeatherJason(\DateTime $date)
-    {
-
-        $items = $this->selectAll();
-
-        $result = new NullWeather();
-
-        foreach ($items as $item) {
-            var_dump($item->getDate());
             if ($item->getDate()->format('Y-m-d') === $date->format('Y-m-d')) {
                 $result = $item;
 
@@ -48,16 +31,40 @@ class DbRepository implements DataProvider
         return $result;
     }
 
-    public function selectByRange(\DateTime $from, \DateTime $to, $api): array
+    /**
+     * @param \DateTime $date
+     * @return WeatherJason
+     * @throws \Exception
+     */
+    public function selectByDateWeatherJason(\DateTime $date): WeatherJason
     {
-        switch ($api)
-        {
-            case 'weather':
-                $items = $this->selectWeatherAll();
-                break;
-            default:
-                $items = $this->selectAll();
+
+        $items = $this->selectWeatherAll();
+
+        $result = new NullWeather();
+
+        foreach ($items as $item) {
+
+            if ($item->getDate()->format('Y-m-d') === $date->format('Y-m-d')) {
+                $result = $item;
+
+            }
         }
+
+        return $result;
+    }
+
+    /**
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @return array
+     */
+    public function selectByRange(\DateTime $from, \DateTime $to): array
+    {
+
+
+        $items = $this->selectAll();
+
         $result = [];
 
         foreach ($items as $item) {
@@ -70,7 +77,30 @@ class DbRepository implements DataProvider
     }
 
     /**
-     * @return Weather[]
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @return array
+     * @throws \Exception
+     */
+    public function selectByRangeWeatherJason(\DateTime $from, \DateTime $to): array
+    {
+
+        $items = $this->selectWeatherAll();
+
+        $result = [];
+
+        foreach ($items as $item) {
+            if ($item->getDate() >= $from && $item->getDate() <= $to) {
+                $result[] = $item;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
      */
     private function selectAll(): array
     {
@@ -89,8 +119,11 @@ class DbRepository implements DataProvider
         }
 
         return $result;
-    }   /**
-     * @return WeatherJason[]
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
      */
     private function selectWeatherAll(): array
     {
@@ -100,7 +133,6 @@ class DbRepository implements DataProvider
             true
         );
 
-        var_dump($data);
 
         foreach ($data as $item) {
             $record = new WeatherJason();
