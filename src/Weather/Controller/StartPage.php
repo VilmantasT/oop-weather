@@ -19,7 +19,7 @@ class StartPage
                     $weather = $service->getTodayInfoWeatherJason();
                     break;
                 case 'google':
-                    echo "googletoday";
+
                     $service = new GoogleApi();
                     $weather = $service->getToday();
                     break;
@@ -46,7 +46,7 @@ class StartPage
                     $weathers = $service->getWeekInfoWeatherJason();
                     break;
                 case 'google':
-                    echo "googleweek";
+                
                     $day = new \DateTime();
 
                     for ($i = 0; $i < 6; $i++)
